@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Spring + AJAX</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+</head>
+<body>
+<div id="cars">
+	<form action="headers">
+	<label id="ctMakeLbl" for="ctMake">Make:</label>
+		<select id="ctMake" name="cars">
+		    <option>Toyota</option>
+	  </select>
+	<label id="ctModelLbl" for="ctModel" hidden ="true" >Model:</label>
+	  <select id="ctModel" name="cars" hidden ="true">
+		    <option value="1">Corola</option>
+	  </select>
+	  
+	  <label id="ctYearLbl" for="ctYear" hidden ="true">Year:</label>
+	  <select id="ctYear" name="year" hidden ="true">
+		    <option value="1">2004</option>
+	  </select>
+	</form>
+	<script>
+	//<![CDATA[
+			
+		$(document).ready(function(){
+			$.getJSON('rest/makes', function(result){
+				$('#ctMake').empty();
+				$.each(result, function(){
+					 $('#ctMake').append('<option>'+this+'</option>');
+				});
+			});
+		});
+		
+		$("#ctMake").change(function(){
+				var selectedMake = $("#ctMake").val();
+				$.getJSON('rest/models',{make: selectedMake}, function(result){
+				$('#ctModel').empty();
+				
+				$.each(result, function(){
+					 $('#ctModel').append('<option>'+this+'</option>');
+				});
+				
+				$("#ctModelLbl").show();
+				$("#ctModel").show();
+			});
+		});
+		
+		$("#ctModel").change(function(){
+			var selectedMake = $("#ctMake").val();
+			var selectedModel = $("#ctModel").val()
+			$.getJSON('rest/keyInfo',{make: selectedMake, model: selectedModel},
+					function(result){
+			$('#ctYear').empty();
+			
+			$.each(result, function(){
+				 $('#ctYear').append('<option>'+this+'</option>');
+			});
+			
+
+			$("#ctYearLbl").show();
+			$("#ctYear").show();
+		});
+	});
+
+	//]]>
+	</script>
+	
+</div>
+<div id="demo">
+  <button type="button" onclick="loadResponseHeaders()">Display Response Headers</button>
+</div>
+<script>
+//<![CDATA[
+function loadHeaders() {
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	     document.getElementById("demo").innerHTML = this.responseText;
+	    }
+	  };
+	  xhttp.open("GET", "rest/headers", true);
+	  xhttp.send();
+	}
+	
+function loadResponseHeaders(){
+	var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	     document.getElementById("demo").innerHTML = this.responseText;
+	    }
+	  };
+	  xhttp.open("GET", "rest/headers", true);
+	  xhttp.send();
+}
+//]]>
+</script>
+</body>
+</html>
