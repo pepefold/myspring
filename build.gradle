@@ -19,7 +19,7 @@ apply plugin: 'war'
 apply plugin: 'com.google.cloud.tools.appengine'
 
 dependencies {
-  //providedCompile group: 'javax.servlet', name: 'servlet-api', version:'2.5'
+  providedCompile group: 'javax.servlet', name: 'servlet-api', version:'2.5'
   compile 'com.google.appengine:appengine:+'
 // Add your dependencies here.
 
