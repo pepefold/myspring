@@ -19,7 +19,7 @@ apply plugin: 'war'
 apply plugin: 'com.google.cloud.tools.appengine'
 
 dependencies {
-  providedCompile group: 'javax.servlet', name: 'servlet-api', version:'2.5'
+  //providedCompile group: 'javax.servlet', name: 'servlet-api', version:'2.5'
   compile 'com.google.appengine:appengine:+'
 // Add your dependencies here.
 
@@ -46,24 +46,27 @@ repositories {
 	mavenCentral()
 }
 
-sourceCompatibility = 1.8  // App Engine Standard uses Java 7
-targetCompatibility = 1.8  // App Engine Standard uses Java 7
+sourceCompatibility = 1.7  // App Engine Standard uses Java 7
+targetCompatibility = 1.7  // App Engine Standard uses Java 7
 
 //group = 'com.example.myspring'   // Generated output GroupId
 //version = '1.0-SNAPSHOT' 
-/*configurations.all {
+configurations.all {
+	//compile.exclude module: "spring-boot-starter-tomcat"
+
     resolutionStrategy {
         eachDependency {
             if (it.requested.group == 'org.apache.tomcat.embed') {
-                it.useVersion '7.0.58'
+                it.useVersion '7.0.81'
             }
         }
     }
+    
+    
 }
-*/
+ext['tomcat.version'] = '7.0.81'
+//ext['jetty.version'] = '9.2.17.v20160517'
 dependencies {
- 	compile("org.springframework.boot:spring-boot-starter-web")
-
     // JPA Data (We are going to use Repositories, Entities, Hibernate, etc...)
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
 
@@ -71,9 +74,16 @@ dependencies {
     compile 'mysql:mysql-connector-java'
     compileOnly('org.projectlombok:lombok')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-	//compile('spring-boot-starter-tomcat');
-	compile('org.springframework.boot:spring-boot-starter-web')
-	
+	//compile('org.springframework.boot:spring-boot-starter-web')
+	compile ('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+    compile ('org.springframework.boot:spring-boot-starter-jetty')
+    
+	compile group:'org.apache.tomcat', name:'tomcat-juli', version:property('tomcat.version')
+	//compile("org.springframework.boot:spring-boot-starter-web:1.5.6.RELEASE")
+    //compile("org.springframework.boot:spring-boot-starter-jetty:1.5.6.RELEASE")
+    
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile 'com.google.cloud.sql:mysql-socket-factory:1.0.4'
 }
