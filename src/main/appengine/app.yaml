@@ -10,5 +10,5 @@ manual_scaling:
   
 #handlers:
 #  url: /.*
-#  script: 
+#  script: commented out
 # [END appyaml]
