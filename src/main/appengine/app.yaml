@@ -1,14 +1,22 @@
 # [START appyaml]
-runtime: java
-service: springboot
+#runtime: java
+#service: springboot
 
-health_check:
-  enable_health_check: False
+#health_check:
+#  enable_health_check: False
 
-manual_scaling:
-  instances: 1
+#manual_scaling:
+#  instances: 1
   
 #handlers:
 #  url: /.*
 #  script: commented out
+# [END appyaml]
+# [START appyaml]
+runtime: java
+env: flex
+
+handlers:
+- url: /.*
+  script: this field is required, but ignored
 # [END appyaml]
