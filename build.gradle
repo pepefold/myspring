@@ -51,7 +51,16 @@ targetCompatibility = 1.8  // App Engine Standard uses Java 7
 
 //group = 'com.example.myspring'   // Generated output GroupId
 //version = '1.0-SNAPSHOT' 
-
+/*configurations.all {
+    resolutionStrategy {
+        eachDependency {
+            if (it.requested.group == 'org.apache.tomcat.embed') {
+                it.useVersion '7.0.58'
+            }
+        }
+    }
+}
+*/
 dependencies {
  	compile("org.springframework.boot:spring-boot-starter-web")
 
@@ -62,6 +71,7 @@ dependencies {
     compile 'mysql:mysql-connector-java'
     compileOnly('org.projectlombok:lombok')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	//compile('spring-boot-starter-tomcat');
 	compile('org.springframework.boot:spring-boot-starter-web')
 	
 	testCompile('org.springframework.boot:spring-boot-starter-test')

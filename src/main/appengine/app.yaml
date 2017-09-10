@@ -1,8 +1,14 @@
 # [START appyaml]
 runtime: java
-env: flex
+service: springboot
 
-handlers:
-  url: /.*
-  script: 
+health_check:
+  enable_health_check: False
+
+manual_scaling:
+  instances: 1
+  
+#handlers:
+#  url: /.*
+#  script: 
 # [END appyaml]
